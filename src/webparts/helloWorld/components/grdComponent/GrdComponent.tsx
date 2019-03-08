@@ -61,11 +61,20 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
       hideDialog: true,
       drpOptions: [],
       ID: 0,
-      Contact_x0020_Name: "",
-      CSN_x0020__x0023_: "",
-      Ship_x0020_To_x0020_Address: "",
       editLink: "",
       filrUrl: "",
+      ContentTypeId: "",
+      Customer_x0020_Name: "",
+      Large_x0020_Canister_x0020_Qty: "",
+      CSN: "",
+      Display_x0020_Name: "",
+      Request_x0020_Date: "",
+      Committed_x0020_Land_x0020_Dateby_x0020_Yuyama: "",
+      Request_x0020_Status: "",
+      Tracking_x0020_Noenteredby_x0020_Doug: "",
+      Sales_x0020_Sparepartorder_x0020_No:"",
+      previousstatus: "",
+      GUID: "",
       items: [
         {
           Id: 0,
@@ -120,9 +129,17 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
     this.setState({
       items: _data.map((filedta) => ({
         ID: filedta.Id,
-        Contact_x0020_Name: filedta.Contact_x0020_Name,
-        CSN_x0020__x0023_: filedta.CSN_x0020__x0023_,
-        Ship_x0020_To_x0020_Address: filedta.Ship_x0020_To_x0020_Address,
+        Customer_x0020_Name: filedta.Customer_x0020_Name,
+        Sales_x0020_Sparepartorder_x0020_No:filedta.Sales_x0020_Sparepartorder_x0020_No,
+        Large_x0020_Canister_x0020_Qty: filedta.Large_x0020_Canister_x0020_Qty,
+        CSN: filedta.CSN,
+        Display_x0020_Name:filedta.Display_x0020_Name,
+        Request_x0020_Date:filedta.Request_x0020_Date,
+        Committed_x0020_Land_x0020_Dateby_x0020_Yuyama:filedta.Committed_x0020_Land_x0020_Dateby_x0020_Yuyama,
+        Request_x0020_Status:filedta.Request_x0020_Status,
+        Tracking_x0020_Noenteredby_x0020_Doug:filedta.Tracking_x0020_Noenteredby_x0020_Doug,
+        previousstatus:filedta.previousstatus,
+        GUID:filedta.GUID,        
         ServerRelativeUrl: urlData + filedta.File.ServerRelativeUrl,
         fileContent: null,
         isEditable: false,
@@ -177,12 +194,17 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
     //Used for grid collumn and Data component
     const viewFields: IViewField[] = [
       {
-        name: 'Contact_x0020_Name',
-        displayName: 'Contact Name',
+        name: 'Customer_x0020_Name',
+        displayName: 'Customer Name',
         sorting: true,
-        maxWidth: 280
+        maxWidth: 120
       },
-
+      {
+        name: 'Sales_x0020_Sparepartorder_x0020_No',
+        displayName: "Order No",
+        sorting: true,
+        maxWidth: 80
+      },
       /////////////////////////////////////
       //Context Menu (Work)
       /////////////////////////////////////
@@ -198,14 +220,20 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
       //   }
       // },
       {
-        name: 'CSN_x0020__x0023_',
-        displayName: 'CSN #',
+        name: 'Large_x0020_Canister_x0020_Qty',
+        displayName: 'Canister Qty',
         sorting: true,
         maxWidth: 80
       },
       {
-        name: 'Ship_x0020_To_x0020_Address',
-        displayName: "Ship Address",
+        name: 'CSN',
+        displayName: "CSN",
+        sorting: true,
+        maxWidth: 80
+      },
+      {
+        name: 'Request_x0020_Date',
+        displayName: "Request Date",
         sorting: true,
         maxWidth: 180
       }
@@ -231,7 +259,7 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
           viewFields={viewFields}
           iconFieldName="ServerRelativeUrl"
           compact={true}
-          selectionMode={SelectionMode.multiple}
+          selectionMode={SelectionMode.single}
           selection={this._getSelection}
           showFilter={true}
           defaultFilter=""

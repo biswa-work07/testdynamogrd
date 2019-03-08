@@ -9,20 +9,32 @@ export interface IItemGrd {
 
 
 export interface IGrdState {
-    editCollectionItems?:any[];
-    showModal:boolean;
-    addEditId:number;
+    editCollectionItems?: any[];
+    showModal: boolean;
+    addEditId: number;
     disabled: boolean;
     checked: boolean;
     drpOptions: Array<any>;
     ID?: number;
-    Contact_x0020_Name?:string;
-    CSN_x0020__x0023_?:string;
-    Ship_x0020_To_x0020_Address?:string;
     items: IItemGrd[];
     pFileContent?: any;
     editItem?: IItemGrd;
-    editLink?:string;
-    ServerRelativeUrl?:string; 
-    addEditButtonText?: string;   
+    editLink?: string;
+    ServerRelativeUrl?: string;
+    addEditButtonText?: string;
+    /////////////////////////////
+    //PROJECT FIELDS
+    /////////////////////////////
+    ContentTypeId ?: string;
+    Customer_x0020_Name?: string;
+    Large_x0020_Canister_x0020_Qty?: string;
+    CSN?:string;
+    Display_x0020_Name?: string;
+    Request_x0020_Date?: string;
+    Committed_x0020_Land_x0020_Dateby_x0020_Yuyama?: string;
+    Request_x0020_Status?: string;
+    Tracking_x0020_Noenteredby_x0020_Doug?: string;
+    previousstatus?: string;
+    GUID?: string;
+    Sales_x0020_Sparepartorder_x0020_No?:string;
 }

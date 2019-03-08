@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IpatentProps } from './IpatentProps';
-import { IItem, ICountry, IparentState } from './IparentState';
+import { IItemGrd, ICountry, IparentState } from './IparentState';
 import { escape } from '@microsoft/sp-lodash-subset';
 import pnp from "sp-pnp-js";
 
