@@ -6,9 +6,12 @@ import { escape } from '@microsoft/sp-lodash-subset';
 import pnp from "sp-pnp-js";
 
 import { TextField, MaskedTextField } from 'office-ui-fabric-react/lib/TextField';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 
 export default class ParentComponent extends React.Component<IpatentProps, IparentState, any> {
 
+
+  
     public render(): React.ReactElement<IpatentProps> {
 
         //const { pId } = this.state;
@@ -65,7 +68,7 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
                     <tr>
                         <td>Ship To Address</td>
                         <td>
-                            <TextField label="With error message"   errorMessage="Error message" />
+                            <TextField label="With error message" errorMessage="Error message" />
                         </td>
                     </tr>
                     <tr>
@@ -103,7 +106,7 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
 
                     <tr>
                         <td>
-
+                           
                         </td>
                     </tr>
                 </table>

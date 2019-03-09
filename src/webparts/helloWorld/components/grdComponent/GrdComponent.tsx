@@ -86,8 +86,14 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
         } as IItemGrd
       ] as IItemGrd[],
       editCollectionItems: [],
-      editItem: { ID: 0, Id: 0, fileContent: [], fileAttachment: [], ContentTypeId: "", Customer_x0020_Name: "", Large_x0020_Canister_x0020_Qty: "", CSN: "", Display_x0020_Name: "", Request_x0020_Date: "", Committed_x0020_Land_x0020_Dateby_x0020_Yuyama: "", Request_x0020_Status: "", Tracking_x0020_Noenteredby_x0020_Doug: "", previousstatus: "", GUID: "", Sales_x0020_Sparepartorder_x0020_No: "" }
+      //editItem: { ID: 0, Id: 0, fileContent: [], fileAttachment: [], ContentTypeId: "", Customer_x0020_Name: "", Large_x0020_Canister_x0020_Qty: "", CSN: "", Display_x0020_Name: "", Request_x0020_Date: "", Committed_x0020_Land_x0020_Dateby_x0020_Yuyama: "", Request_x0020_Status: "", Tracking_x0020_Noenteredby_x0020_Doug: "", previousstatus: "", GUID: "", Sales_x0020_Sparepartorder_x0020_No: "" }
+      editItem: this.EditDefaultdata()
     } as IGrdState;
+  }
+
+
+  public EditDefaultdata() {
+    return { ID: 0, Id: 0, fileContent: [], fileAttachment: [], ContentTypeId: "", Customer_x0020_Name: "", Large_x0020_Canister_x0020_Qty: "", CSN: "", Display_x0020_Name: "", Request_x0020_Date: "", Committed_x0020_Land_x0020_Dateby_x0020_Yuyama: "", Request_x0020_Status: "", Tracking_x0020_Noenteredby_x0020_Doug: "", previousstatus: "", GUID: "", Sales_x0020_Sparepartorder_x0020_No: "" };
   }
 
 
@@ -100,13 +106,22 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
 
     //Make ready the edit component
 
+    if (items.length > 0) {
+      this.setState({ editItem: items.slice()[0], addEditButtonText: items.length > 0 ? "EDIT" : "ADD +" }, () => {
+        if (items.length > 0) {
+          console.log('Grid edit :' + this.state.editItem);
 
-    this.setState({ editItem: items.slice()[0], addEditButtonText: items.length > 0 ? "EDIT" : "ADD +" }, () => {
-      if (items.length > 0) {
-        console.log('Grid edit :' + this.state.editItem);
+        }
+      });
+    } else {
+      this.setState({ editItem: this.EditDefaultdata(), addEditButtonText: items.length > 0 ? "EDIT" : "ADD +" }, () => {
+        if (items.length > 0) {
+          console.log('Grid Add :' + this.state.editItem);
 
-      }
-    });
+        }
+      });
+    }
+
 
   }
 
