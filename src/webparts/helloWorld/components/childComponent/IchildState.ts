@@ -2,15 +2,28 @@ export interface IItem {
     Id?: number;
     Company?: string;
     Contact?: string;
-    //Country?: ICountry;
-    fileContent?: any;
     isEditable?: boolean;
+
+    /////////////////////////////
+    //PROJECT FIELDS
+    /////////////////////////////
+    fileContent?: any[];
+    Part?: IPart;
+    OrderAccepted?: IOrderAccepted;
+    CommittedLandDatebyYuyama?:string;
+    Tracking?:string;
 }
 
-export interface ICountry {
+export interface IPart {
     Id?: number;
-    CountryName?: string;
+    PartDougM?: string;
 }
+
+export interface IOrderAccepted {
+    Id?: number;
+    PartDougM?: string;
+}
+
 
 export interface IchildState {
     disabled: boolean;

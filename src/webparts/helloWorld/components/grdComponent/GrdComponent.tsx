@@ -107,22 +107,19 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
     //Make ready the edit component
 
     if (items.length > 0) {
-      this.setState({ editItem: items.slice()[0], addEditButtonText: items.length > 0 ? "EDIT" : "ADD +" }, () => {
+      this.setState({ addEditId: items[0].ID, editItem: items.slice()[0], addEditButtonText: items.length > 0 ? "EDIT" : "ADD +" }, () => {
         if (items.length > 0) {
-          console.log('Grid edit :' + this.state.editItem);
+          console.log('Grid edit :' + this.state.addEditId + '|' + this.state.editItem);
 
         }
       });
     } else {
-      this.setState({ editItem: this.EditDefaultdata(), addEditButtonText: items.length > 0 ? "EDIT" : "ADD +" }, () => {
+      this.setState({ addEditId: 0, editItem: this.EditDefaultdata(), addEditButtonText: items.length > 0 ? "EDIT" : "ADD +" }, () => {
         if (items.length > 0) {
           console.log('Grid Add :' + this.state.editItem);
-
         }
       });
     }
-
-
   }
 
 
@@ -302,7 +299,7 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
         >
           <div className="ms-modalExample-body">
             <DefaultButton onClick={this._closeModal} text="Close" />
-            <ParentComponent context={this.props.context} parentAddEditId={this.state.addEditId} editCollectionItems={editCollectionItems} edtParentItemGrdData={editItem} ></ParentComponent>
+            <ParentComponent context={this.props.context} addEditId={this.state.addEditId} editCollectionItems={editCollectionItems} edtParentItemGrdData={editItem} ></ParentComponent>
           </div>
 
           <div id="subtitleId" className="ms-modalExample-body">

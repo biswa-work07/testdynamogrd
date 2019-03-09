@@ -8,18 +8,23 @@ import pnp from "sp-pnp-js";
 import { TextField, MaskedTextField } from 'office-ui-fabric-react/lib/TextField';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 
+
+import ChildComponent from './../childComponent/ChildComponent';
+
+
+
 export default class ParentComponent extends React.Component<IpatentProps, IparentState, any> {
 
 
-  
     public render(): React.ReactElement<IpatentProps> {
 
         //const { pId } = this.state;
-        const { parentAddEditId, context, editCollectionItems, edtParentItemGrdData } = this.props;
+        const { addEditId, context, editCollectionItems, edtParentItemGrdData } = this.props;
 
         return (
             <div>
                 <b> Hi, I am Parent .</b>
+
 
                 {
                     editCollectionItems.length > 0 ?
@@ -73,40 +78,13 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
                     </tr>
                     <tr>
                         <td>
-                            <table>
-                                <tr>
-                                    <td>Part #</td>
-                                    <td>
-                                        Description
-                                    </td>
-                                    <td>
-                                        Qty.
-                                    </td>
-                                    <td>
-                                        RLD
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <TextField label="With error message" errorMessage="Error message" />
-                                    </td>
-                                    <td>
-                                        <TextField label="With error message" errorMessage="Error message" />
-                                    </td>
-                                    <td>
-                                        <TextField label="With error message" errorMessage="Error message" />
-                                    </td>
-                                    <td>
-                                        <TextField label="With error message" errorMessage="Error message" />
-                                    </td>
-                                </tr>
-                            </table>
+
                         </td>
                     </tr>
 
                     <tr>
                         <td>
-                           
+                            <ChildComponent context={context} addEditId={addEditId}></ChildComponent>
                         </td>
                     </tr>
                 </table>

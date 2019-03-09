@@ -1,7 +1,7 @@
 
 import { IGrdState,IItemGrd } from '../grdComponent/IgridState';
 export interface IpatentProps {
-    parentAddEditId: number;
+    addEditId: number;
     context: any;
     editCollectionItems?: any[];
     edtParentItemGrdData?: IItemGrd;
