@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { IpatentProps } from './IpatentProps';
 import { IItemGrd, ICountry, IparentState } from './IparentState';
+
 import { escape } from '@microsoft/sp-lodash-subset';
 import pnp from "sp-pnp-js";
 
@@ -11,7 +12,7 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
     public render(): React.ReactElement<IpatentProps> {
 
         //const { pId } = this.state;
-        const { parentAddEditId, context, editCollectionItems } = this.props;
+        const { parentAddEditId, context, editCollectionItems, edtParentItemGrdData } = this.props;
 
         return (
             <div>
@@ -30,6 +31,9 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
                         )
                 }
 
+
+
+
                 <table>
                     <tr>
                         <td>
@@ -38,7 +42,7 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
                         <td>
                             <table>
                                 <tr>
-                                    <td>Requested By </td>
+                                    <td>Requested By : </td>
                                     <td>
 
                                     </td>
@@ -49,19 +53,19 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
                     <tr>
                         <td>Account Name</td>
                         <td>
-                            <TextField label="With error message" errorMessage="Error message" />
+                            <TextField label="With error message" value={edtParentItemGrdData.Customer_x0020_Name} errorMessage="Error message" />
                         </td>
                     </tr>
                     <tr>
                         <td>CSN #</td>
                         <td>
-                            <TextField label="With error message" errorMessage="Error message" />
+                            <TextField label="With error message" value={edtParentItemGrdData.CSN} errorMessage="Error message" />
                         </td>
                     </tr>
                     <tr>
                         <td>Ship To Address</td>
                         <td>
-                            <TextField label="With error message" errorMessage="Error message" />
+                            <TextField label="With error message"   errorMessage="Error message" />
                         </td>
                     </tr>
                     <tr>
@@ -99,7 +103,7 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
 
                     <tr>
                         <td>
-                            
+
                         </td>
                     </tr>
                 </table>

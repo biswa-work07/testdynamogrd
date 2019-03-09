@@ -52,7 +52,6 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
 
     this.state = {
       addEditButtonText: "ADD +",
-      editCollectionItems: [],
       showModal: false,
       addEditId: 0,
       disabled: false,
@@ -60,44 +59,53 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
       selectedItem: null,
       hideDialog: true,
       drpOptions: [],
-      ID: 0,
-      editLink: "",
-      filrUrl: "",
-      ContentTypeId: "",
-      Customer_x0020_Name: "",
-      Large_x0020_Canister_x0020_Qty: "",
-      CSN: "",
-      Display_x0020_Name: "",
-      Request_x0020_Date: "",
-      Committed_x0020_Land_x0020_Dateby_x0020_Yuyama: "",
-      Request_x0020_Status: "",
-      Tracking_x0020_Noenteredby_x0020_Doug: "",
-      Sales_x0020_Sparepartorder_x0020_No:"",
-      previousstatus: "",
-      GUID: "",
+
       items: [
         {
+          editLink: "",
+          filrUrl: "",
+          /////////////////////////////
+          //PROJECT FIELDS
+          /////////////////////////////
           Id: 0,
-          Company: "",
-          Contact: "",
-          Country: null,
-          fileContent: null
+          fileContent: [],
+          fileAttachment: [],
+          ID: 0,
+          ContentTypeId: "",
+          Customer_x0020_Name: "",
+          Large_x0020_Canister_x0020_Qty: "",
+          CSN: "",
+          Display_x0020_Name: "",
+          Request_x0020_Date: "",
+          Committed_x0020_Land_x0020_Dateby_x0020_Yuyama: "",
+          Request_x0020_Status: "",
+          Tracking_x0020_Noenteredby_x0020_Doug: "",
+          Sales_x0020_Sparepartorder_x0020_No: "",
+          previousstatus: "",
+          GUID: "",
         } as IItemGrd
       ] as IItemGrd[],
-      editItem: { Company: '', Contact: '', Country: { Id: 0, CountryName: '' }, Id: 0, fileContent: null, isEditable: false }
+      editCollectionItems: [],
+      editItem: { ID: 0, Id: 0, fileContent: [], fileAttachment: [], ContentTypeId: "", Customer_x0020_Name: "", Large_x0020_Canister_x0020_Qty: "", CSN: "", Display_x0020_Name: "", Request_x0020_Date: "", Committed_x0020_Land_x0020_Dateby_x0020_Yuyama: "", Request_x0020_Status: "", Tracking_x0020_Noenteredby_x0020_Doug: "", previousstatus: "", GUID: "", Sales_x0020_Sparepartorder_x0020_No: "" }
     } as IGrdState;
   }
 
 
   private _getSelection = (items: any[]) => {
-    console.log('Selected items:', items);
+    //console.log('Selected items:', items);
     //state.items.concat(items)
 
     //Add or Edit (IF ELSE STATEMENT)
     //{isLoggedIn ? 'currently' : 'not'}
 
-    this.setState({ editCollectionItems: items.slice(), addEditButtonText: items.length > 0 ? "EDIT" : "ADD +" }, () => {
-      console.log(this.state);
+    //Make ready the edit component
+
+
+    this.setState({ editItem: items.slice()[0], addEditButtonText: items.length > 0 ? "EDIT" : "ADD +" }, () => {
+      if (items.length > 0) {
+        console.log('Grid edit :' + this.state.editItem);
+
+      }
     });
 
   }
@@ -130,16 +138,16 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
       items: _data.map((filedta) => ({
         ID: filedta.Id,
         Customer_x0020_Name: filedta.Customer_x0020_Name,
-        Sales_x0020_Sparepartorder_x0020_No:filedta.Sales_x0020_Sparepartorder_x0020_No,
+        Sales_x0020_Sparepartorder_x0020_No: filedta.Sales_x0020_Sparepartorder_x0020_No,
         Large_x0020_Canister_x0020_Qty: filedta.Large_x0020_Canister_x0020_Qty,
         CSN: filedta.CSN,
-        Display_x0020_Name:filedta.Display_x0020_Name,
-        Request_x0020_Date:filedta.Request_x0020_Date,
-        Committed_x0020_Land_x0020_Dateby_x0020_Yuyama:filedta.Committed_x0020_Land_x0020_Dateby_x0020_Yuyama,
-        Request_x0020_Status:filedta.Request_x0020_Status,
-        Tracking_x0020_Noenteredby_x0020_Doug:filedta.Tracking_x0020_Noenteredby_x0020_Doug,
-        previousstatus:filedta.previousstatus,
-        GUID:filedta.GUID,        
+        Display_x0020_Name: filedta.Display_x0020_Name,
+        Request_x0020_Date: filedta.Request_x0020_Date,
+        Committed_x0020_Land_x0020_Dateby_x0020_Yuyama: filedta.Committed_x0020_Land_x0020_Dateby_x0020_Yuyama,
+        Request_x0020_Status: filedta.Request_x0020_Status,
+        Tracking_x0020_Noenteredby_x0020_Doug: filedta.Tracking_x0020_Noenteredby_x0020_Doug,
+        previousstatus: filedta.previousstatus,
+        GUID: filedta.GUID,
         ServerRelativeUrl: urlData + filedta.File.ServerRelativeUrl,
         fileContent: null,
         isEditable: false,
@@ -279,7 +287,7 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
         >
           <div className="ms-modalExample-body">
             <DefaultButton onClick={this._closeModal} text="Close" />
-            <ParentComponent context={this.props.context} parentAddEditId={this.state.addEditId} editCollectionItems={editCollectionItems}   ></ParentComponent>
+            <ParentComponent context={this.props.context} parentAddEditId={this.state.addEditId} editCollectionItems={editCollectionItems} edtParentItemGrdData={editItem} ></ParentComponent>
           </div>
 
           <div id="subtitleId" className="ms-modalExample-body">
