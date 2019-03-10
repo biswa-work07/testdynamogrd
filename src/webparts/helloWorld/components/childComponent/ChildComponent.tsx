@@ -10,9 +10,14 @@ import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBa
 
 export default class ChildComponent extends React.Component<IchildProps, IchildState, any> {
 
+    constructor(props: IchildProps) {
+        super(props);
+    
+        
+    }
 
     public componentDidMount() {
-
+        
     }
 
 
@@ -24,7 +29,7 @@ export default class ChildComponent extends React.Component<IchildProps, IchildS
 
         return (
             <div>
-                Hi, I am child. {addEditId}
+                <b>Hi, I am child. {addEditId}</b>
                 <table>
                     <tr>
                         <td>Part #</td>

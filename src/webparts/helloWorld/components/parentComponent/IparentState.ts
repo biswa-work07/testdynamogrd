@@ -1,24 +1,37 @@
-export interface IItemGrd {
-    Id?: number;
-    Company?: string;
-    Contact?: string;
-    //Country?: ICountry;
-    fileContent?: any;
-    isEditable?: boolean;
-}
+import { IItemGrd } from './../grdComponent/IgridState';
 
-export interface ICountry {
-    Id?: number;
-    CountryName?: string;
-}
-
-export interface IparentState {    
+export interface IDetailForm {
+    ID?: number;
+    slNo?: number;
     pId?: number;
-    disabled: boolean;
-    checked: boolean;
-    drpOptions: Array<any>;
+    noOfDetailsForm?:number;
+    /////////////////////////////
+    //PROJECT FIELDS
+    /////////////////////////////
+    ContentTypeId?: "";
+    rpt_fileContent?: any[];
+    Part?: IPart;
+    OrderAccepted?: IOrderAccepted;
+    CommittedLandDatebyYuyama?: string;
+    Tracking?: string;
+}
+
+export interface IPart {
+    Id?: number;
+    PartDougM?: string;
+}
+
+export interface IOrderAccepted {
+    Id?: number;
+    PartDougM?: string;
+}
+
+
+export interface IparentState {
+    pId?: number;
+    drpOptions?: Array<any>;
     selectedItem?: { key: string | number | undefined };
-    items: IItemGrd[];
-    editItem?: IItemGrd;
+    items: IItemGrd;
+    itemDetailData?: IDetailForm[];
 }
 

@@ -2,7 +2,7 @@ import { IPart, IOrderAccepted } from './IchildState';
 
 export interface IchildProps {
     context: any;
-    addEditId?: number;
+    addEditId?: number;    
     /////////////////////////////
     //PROJECT FIELDS
     /////////////////////////////
