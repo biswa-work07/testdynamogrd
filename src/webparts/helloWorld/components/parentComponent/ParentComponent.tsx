@@ -97,11 +97,35 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
 
     public async componentDidMount() {
         const _util = new Utility();
-        const _xml_data = await _util.readRestXMLFromDocumentLibrary_1(this.props.edtParentItemGrdData.ID, this.props.context, this.props.edtParentItemGrdData.xmlFullUrl,this.props.edtParentItemGrdData.xmlRelativeUrl,this.props.edtParentItemGrdData.xmlFileName);
-        console.log(_xml_data);
+        const _xml_data = await _util.readRestXMLFromDocumentLibrary_1(this.props.edtParentItemGrdData.ID, this.props.context, this.props.edtParentItemGrdData.xmlFullUrl, this.props.edtParentItemGrdData.xmlRelativeUrl, this.props.edtParentItemGrdData.xmlFileName);
+        //console.log(_xml_data);
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(_xml_data.toString(), 'text/xml');
+
+        console.log(xml.querySelector('group1'));
+        console.log(xml.querySelector('group1').querySelector('group2').querySelector('Attachment').innerHTML);
+
+        //Convert base64 (existing infopath data) to ArrayBuffer
+        const BufferArray = this.base64ToArrayBuffer(xml.querySelector('group1').querySelector('group2').querySelector('Attachment').innerHTML);
+        this.saveByteArray('tt', BufferArray);
+
+    }
+
+    public saveByteArray = (reportName, byte) => {
+        var blob = new Blob([byte]);
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        var fileName = reportName;
+        link.download = fileName;
+        link.click();
     }
 
 
+    public base64ToArrayBuffer = (base64: string) => {
+        const binaryString = window.atob(base64); // Comment this if not using base64
+        const bytes = new Uint8Array(binaryString.length);
+        return bytes.map((byte, i) => binaryString.charCodeAt(i));
+    }
 
     public render(): React.ReactElement<IpatentProps> {
 
