@@ -19,11 +19,14 @@ export interface IItemGrd {
     previousstatus?: string;
     GUID?: string;
     Sales_x0020_Sparepartorder_x0020_No?: string;
+    xmlFullUrl?: string;
+    xmlRelativeUrl?: string;
+    xmlFileName?:string;
 }
 
 
 export interface IGrdState {
-    editCollectionItems?: any[];
+    editSelectedCollectionItems?: any[];// used for multi select grid
     showModal: boolean;
     addEditId: number;
     disabled: boolean;
@@ -33,7 +36,6 @@ export interface IGrdState {
     items: IItemGrd[];
     pFileContent?: any;
     editItem?: IItemGrd;
-    editLink?: string;
-    ServerRelativeUrl?: string;
+    editLink?: string;   
     addEditButtonText?: string;
 }

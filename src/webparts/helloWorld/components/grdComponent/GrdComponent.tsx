@@ -83,9 +83,12 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
           Sales_x0020_Sparepartorder_x0020_No: "",
           previousstatus: "",
           GUID: "",
+          xmlFullUrl: "",
+          xmlFileName: "",
+          xmlRelativeUrl: ""
         } as IItemGrd
       ] as IItemGrd[],
-      editCollectionItems: [],
+      editSelectedCollectionItems: [],
       //editItem: { ID: 0, Id: 0, fileContent: [], fileAttachment: [], ContentTypeId: "", Customer_x0020_Name: "", Large_x0020_Canister_x0020_Qty: "", CSN: "", Display_x0020_Name: "", Request_x0020_Date: "", Committed_x0020_Land_x0020_Dateby_x0020_Yuyama: "", Request_x0020_Status: "", Tracking_x0020_Noenteredby_x0020_Doug: "", previousstatus: "", GUID: "", Sales_x0020_Sparepartorder_x0020_No: "" }
       editItem: this.EditDefaultdata()
     } as IGrdState;
@@ -160,7 +163,9 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
         Tracking_x0020_Noenteredby_x0020_Doug: filedta.Tracking_x0020_Noenteredby_x0020_Doug,
         previousstatus: filedta.previousstatus,
         GUID: filedta.GUID,
-        ServerRelativeUrl: urlData + filedta.File.ServerRelativeUrl,
+        xmlFullUrl: filedta.File.LinkingUri,
+        xmlRelativeUrl: filedta.File.ServerRelativeUrl,
+        xmlFileName: filedta.File.Name,
         fileContent: null,
         isEditable: false,
         editLink: null
@@ -208,7 +213,7 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
 
   public render(): React.ReactElement<IgridProps> {
 
-    const { disabled, checked, drpOptions, editItem, items, addEditId, addEditButtonText, editCollectionItems } = this.state;
+    const { disabled, checked, drpOptions, editItem, items, addEditId, addEditButtonText, editSelectedCollectionItems } = this.state;
 
 
     //Used for grid collumn and Data component
@@ -299,7 +304,7 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
         >
           <div className="ms-modalExample-body">
             <DefaultButton onClick={this._closeModal} text="Close" />
-            <ParentComponent context={this.props.context} addEditId={this.state.addEditId} editCollectionItems={editCollectionItems} edtParentItemGrdData={editItem} ></ParentComponent>
+            <ParentComponent context={this.props.context} addEditId={this.state.addEditId} editSelectedCollectionItems={editSelectedCollectionItems} edtParentItemGrdData={editItem} ></ParentComponent>
           </div>
 
           <div id="subtitleId" className="ms-modalExample-body">

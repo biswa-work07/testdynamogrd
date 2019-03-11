@@ -14,7 +14,7 @@ import { ConsoleListener, Web, Logger, LogLevel, ODataRaw } from "sp-pnp-js";
 import { Dropdown, IDropdown, DropdownMenuItemType, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 
 // import ChildComponent from './../childComponent/ChildComponent';
-
+import Utility from '../../lib/Utility';
 
 
 export default class ParentComponent extends React.Component<IpatentProps, IparentState, any> {
@@ -73,9 +73,9 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
 
 
     //Add new DTAILS FROM DOUG M
-    private addNewDetailForm = (id: any): void => {
+    private addNewDetailForm = (e: any, id: any) => (value: any) => {
 
-        this.setState({ itemDetailData: [...this.state.itemDetailData, ...this.NewDetailFormDefaultdata()] }, () => {
+        this.setState({ itemDetailData: [...this.NewDetailFormDefaultdata()] }, () => {
             console.log(this.state);
         });
     }
@@ -85,17 +85,28 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
     }
 
     //Delete new DTAILS FROM DOUG M
-    private deleteNewDetailForm = (id: any): void => {
+    private deleteNewDetailForm = (e: any, id: any) => (value: any) => {
+
+        alert(id);
+
         //console.log(this.state.isAddButton);
         // this.setState({ showModal: true }, () => {
         //   console.log(this.state);
         // });
     }
 
+    public async componentDidMount() {
+        const _util = new Utility();
+        const _xml_data = await _util.readRestXMLFromDocumentLibrary_1(this.props.edtParentItemGrdData.ID, this.props.context, this.props.edtParentItemGrdData.xmlFullUrl,this.props.edtParentItemGrdData.xmlRelativeUrl,this.props.edtParentItemGrdData.xmlFileName);
+        console.log(_xml_data);
+    }
+
+
+
     public render(): React.ReactElement<IpatentProps> {
 
         //const { pId } = this.state;
-        const { addEditId, context, editCollectionItems, edtParentItemGrdData } = this.props;
+        const { addEditId, context, editSelectedCollectionItems, edtParentItemGrdData } = this.props;
 
         return (
             <div>
@@ -103,9 +114,9 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
 
 
                 {
-                    editCollectionItems.length > 0 ?
+                    editSelectedCollectionItems.length > 0 ?
                         (
-                            editCollectionItems.map((item) => <div>Edit Mode :
+                            editSelectedCollectionItems.map((item) => <div>Edit Mode :
                            <span className='indent' key={item}>{item["ID"]},</span>
                             </div>)
                         )
@@ -133,7 +144,7 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
                             <TextField label="With error message" errorMessage="Error message" />
                         </td>
                         <td>
-                            <DefaultButton onClick={this.addNewDetailForm} text="Add +" />
+                            <DefaultButton onClick={this.addNewDetailForm(this, 0)} text="Add +" />
                         </td>
                     </tr>
                     {this.state.itemDetailData.map(myitems1 => {
@@ -144,7 +155,7 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
                                         <table>
                                             <tr>
                                                 <td>
-                                                    <DefaultButton onClick={this.deleteNewDetailForm} text="-" />
+                                                    <DefaultButton onClick={this.deleteNewDetailForm(this, myitems1.slNo)} text="-" />
                                                 </td>
                                             </tr>
                                             <tr>
