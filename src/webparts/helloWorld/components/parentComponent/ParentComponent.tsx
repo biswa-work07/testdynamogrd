@@ -75,9 +75,14 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
     //Add new DTAILS FROM DOUG M
     private addNewDetailForm = (e: any, id: any) => (value: any) => {
 
-        this.setState({ itemDetailData: [...this.NewDetailFormDefaultdata()] }, () => {
+        // this.setState({ itemDetailData: [...this.NewDetailFormDefaultdata()] }, () => {
+        //     console.log(this.state);
+        // });
+
+        this.setState({ itemDetailData: [...this.state.itemDetailData, ...this.NewDetailFormDefaultdata()] }, () => {
             console.log(this.state);
         });
+
     }
 
     public NewDetailFormDefaultdata = (): IDetailForm[] => {
@@ -96,23 +101,27 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
     }
 
     public async componentDidMount() {
-        const _util = new Utility();
-        const _xml_data = await _util.readRestXMLFromDocumentLibrary_1(this.props.edtParentItemGrdData.ID, this.props.context, this.props.edtParentItemGrdData.xmlFullUrl, this.props.edtParentItemGrdData.xmlRelativeUrl, this.props.edtParentItemGrdData.xmlFileName);
-        //console.log(_xml_data);
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(_xml_data.toString(), 'text/xml');
 
-        console.log(xml.querySelector('group1'));
-        console.log(xml.querySelector('group1').querySelector('group2').querySelector('Attachment').innerHTML);
 
-        //Convert base64 (existing infopath data) to ArrayBuffer
-        const BufferArray = this.base64ToArrayBuffer(xml.querySelector('group1').querySelector('group2').querySelector('Attachment').innerHTML);
-        this.saveByteArray('tt', BufferArray);
+        if (this.props.addEditId > 0) {
+            const _util = new Utility();
+            const _xml_data = await _util.readRestXMLFromDocumentLibrary_1(this.props.edtParentItemGrdData.ID, this.props.context, this.props.edtParentItemGrdData.xmlFullUrl, this.props.edtParentItemGrdData.xmlRelativeUrl, this.props.edtParentItemGrdData.xmlFileName);
+            //console.log(_xml_data);
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(_xml_data.toString(), 'text/xml');
 
+            console.log(xml.querySelector('group1'));
+            console.log(xml.querySelector('group1').querySelector('group2').querySelector('Attachment').innerHTML);
+
+            //Convert base64 (existing infopath data) to ArrayBuffer
+            const BufferArray = this.base64ToArrayBuffer(xml.querySelector('group1').querySelector('group2').querySelector('Attachment').innerHTML);
+            //this.saveByteArray('tt', BufferArray);
+        }
     }
 
     public saveByteArray = (reportName, byte) => {
-        var blob = new Blob([byte]);
+        var blob = new Blob([byte], { type: "application/pdf" });
+        //var blob = new Blob([byte]);
         var link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
         var fileName = reportName;
