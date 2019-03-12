@@ -60,12 +60,15 @@ export default class UploadCC extends React.Component<IUploadCCProps, IUploadCCS
         const { fileContent } = this.state;
 
         pnp.sp.web
-            .getFolderByServerRelativeUrl("Student Details No Content Type")
+            .getFolderByServerRelativeUrl("OmniCellPreMT Test")
             .files.add(fileContent.name, fileContent, true)
             .then(f => {
                 f.file.getItem().then(item => {
                     item.update({
-                        Title: "A Title"
+                        Title: "A Title",
+                        SiteLocation:"Enter Choice #2",
+                        ContentTypeId :"0x010100C4B1772BA59E054E8EFF91A2D864610D001A6CB99011D4BB45BC4C81F93F286C54",
+                        Business_x0020_Owner:"Biswa 1"
                     });
                 });
             });
