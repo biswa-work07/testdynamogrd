@@ -107,6 +107,8 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
             const _util = new Utility();
             const _xml_data = await _util.readRestXMLFromDocumentLibrary_1(this.props.edtParentItemGrdData.ID, this.props.context, this.props.edtParentItemGrdData.xmlFullUrl, this.props.edtParentItemGrdData.xmlRelativeUrl, this.props.edtParentItemGrdData.xmlFileName);
             //console.log(_xml_data);
+
+            //Reading XML data
             const parser = new DOMParser();
             const xml = parser.parseFromString(_xml_data.toString(), 'text/xml');
 
@@ -116,6 +118,21 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
             //Convert base64 (existing infopath data) to ArrayBuffer
             const BufferArray = this.base64ToArrayBuffer(xml.querySelector('group1').querySelector('group2').querySelector('Attachment').innerHTML);
             //this.saveByteArray('tt', BufferArray);
+
+            //Uploading buffer to another document library
+            pnp.sp.web
+            .getFolderByServerRelativeUrl("OmniCellPreMT Test")
+            .files.add('test.xls', BufferArray, true)
+            .then(f => {
+                f.file.getItem().then(item => {
+                    item.update({
+                        Title: "A Title",
+                        SiteLocation:"Enter Choice #2",
+                        ContentTypeId :"0x010100C4B1772BA59E054E8EFF91A2D864610D001A6CB99011D4BB45BC4C81F93F286C54",
+                        Business_x0020_Owner:"File Data Upload 1"
+                    });
+                });
+            });
         }
     }
 

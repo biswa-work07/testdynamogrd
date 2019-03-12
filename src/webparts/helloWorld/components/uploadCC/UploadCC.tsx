@@ -77,6 +77,30 @@ export default class UploadCC extends React.Component<IUploadCCProps, IUploadCCS
     }
 
 
+
+    private _uploadBlobFile = (_id, _title) => (e: any) => {
+
+        const { fileContent } = this.state;
+
+        pnp.sp.web
+            .getFolderByServerRelativeUrl("OmniCellPreMT Test")
+            .files.add(fileContent.name, fileContent, true)
+            .then(f => {
+                f.file.getItem().then(item => {
+                    item.update({
+                        Title: "A Title",
+                        SiteLocation:"Enter Choice #2",
+                        ContentTypeId :"0x010100C4B1772BA59E054E8EFF91A2D864610D001A6CB99011D4BB45BC4C81F93F286C54",
+                        Business_x0020_Owner:"Biswa 1"
+                    });
+                });
+            });
+
+        e.preventDefault();
+
+
+    }
+
     public render(): React.ReactElement<IUploadCCProps> {
 
         //const { pId } = this.state;
@@ -106,6 +130,16 @@ export default class UploadCC extends React.Component<IUploadCCProps, IUploadCCS
 
                         Upload
               </button>
+
+
+
+              <button
+                        onClick={this._uploadBlobFile(this.props.Key, this.props.ParentId)}
+                    >
+
+                        Upload
+              </button>
+
                 </form>
                 <hr></hr>
             </div>

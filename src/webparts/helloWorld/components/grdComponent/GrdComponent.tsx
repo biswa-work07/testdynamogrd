@@ -152,6 +152,7 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
     this.setState({
       items: _data.map((filedta) => ({
         ID: filedta.Id,
+        ContentTypeId:filedta.ContentTypeId,
         Customer_x0020_Name: filedta.Customer_x0020_Name,
         Sales_x0020_Sparepartorder_x0020_No: filedta.Sales_x0020_Sparepartorder_x0020_No,
         Large_x0020_Canister_x0020_Qty: filedta.Large_x0020_Canister_x0020_Qty,
