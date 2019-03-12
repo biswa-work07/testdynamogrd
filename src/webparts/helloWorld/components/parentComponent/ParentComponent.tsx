@@ -144,7 +144,7 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
         return (
             <div>
                 <b> Hi, I am Parent .</b>
-
+                
 
                 {
                     editSelectedCollectionItems.length > 0 ?
