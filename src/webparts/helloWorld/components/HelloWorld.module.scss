@@ -37,6 +37,11 @@
     @include ms-fontColor-white;
   }
 
+  .scrollDiv {
+    overflow: auto; 
+    height: 400px;
+  }
+
   .button {
     // Our button
     text-decoration: none;

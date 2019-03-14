@@ -1,6 +1,7 @@
 
 import { IGrdState,IItemGrd } from '../grdComponent/IgridState';
 export interface IpatentProps {
+    tempSlNo?:number;
     xmlFullUrl?: string;
     xmlRelativeUrl?: string;
     xmlFileName?:string;

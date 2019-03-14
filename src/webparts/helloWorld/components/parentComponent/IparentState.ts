@@ -1,10 +1,10 @@
 import { IItemGrd } from './../grdComponent/IgridState';
 
-export interface IDetailForm {
+export interface IDetailForm {       
     ID?: number;
     slNo?: number;
     pId?: number;
-    noOfDetailsForm?:number;
+    noOfDetailsForm?: number;
     /////////////////////////////
     //PROJECT FIELDS
     /////////////////////////////
@@ -28,6 +28,7 @@ export interface IOrderAccepted {
 
 
 export interface IparentState {
+    tempSlNo?: number;
     pId?: number;
     drpOptions?: Array<any>;
     selectedItem?: { key: string | number | undefined };

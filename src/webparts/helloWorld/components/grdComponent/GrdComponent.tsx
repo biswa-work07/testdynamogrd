@@ -301,7 +301,7 @@ export default class GrdComponent extends React.Component<IgridProps, IGrdState,
           isOpen={this.state.showModal}
           onDismiss={this._closeModal}
           isBlocking={false}
-          containerClassName="ms-modalExample-container"
+          containerClassName="ms-modalExample-container"          
         >
           <div className="ms-modalExample-body">
             <DefaultButton onClick={this._closeModal} text="Close" />

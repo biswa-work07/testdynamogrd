@@ -24,6 +24,7 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
         super(props);
 
         this.state = {
+            tempSlNo: 0,
             pId: 0,
             noOfDetailsForm: 0,
             drpOptions: [],
@@ -79,25 +80,29 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
         //     console.log(this.state);
         // });
 
-        this.setState({ itemDetailData: [...this.state.itemDetailData, ...this.NewDetailFormDefaultdata()] }, () => {
+        const { itemDetailData, tempSlNo } = this.state;
+
+        this.setState({ tempSlNo: tempSlNo + 1, itemDetailData: [...this.state.itemDetailData, ...this.NewDetailFormDefaultdata()] }, () => {
             console.log(this.state);
         });
 
     }
 
     public NewDetailFormDefaultdata = (): IDetailForm[] => {
-        return [{ slNo: 0, ID: 0, pId: 0, rpt_fileContent: [], ContentTypeId: "", Part: { Id: 0, PartDougM: "" }, OrderAccepted: { Id: 0, PartDougM: "" }, CommittedLandDatebyYuyama: "", Tracking: "" }];
+        const { tempSlNo } = this.state;
+        return [{ slNo: tempSlNo + 1, ID: 0, pId: 0, rpt_fileContent: [], ContentTypeId: "", Part: { Id: 0, PartDougM: "" }, OrderAccepted: { Id: 0, PartDougM: "" }, CommittedLandDatebyYuyama: "", Tracking: "" }];
     }
 
     //Delete new DTAILS FROM DOUG M
-    private deleteNewDetailForm = (e: any, id: any) => (value: any) => {
+    private deleteNewDetailForm = (e: any, id: any, slno?: number) => (value: any) => {
 
-        alert(id);
+        const { itemDetailData, tempSlNo } = this.state;
+        
+        // alert(id + '|' + slno);
+        // let array1 = [...itemDetailData];
 
-        //console.log(this.state.isAddButton);
-        // this.setState({ showModal: true }, () => {
-        //   console.log(this.state);
-        // });
+        this.setState(_itemDetailData => ({ itemDetailData: _itemDetailData.itemDetailData.filter(person => person.slNo !== slno) }));
+
     }
 
     public async componentDidMount() {
@@ -117,22 +122,34 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
 
             //Convert base64 (existing infopath data) to ArrayBuffer
             const BufferArray = this.base64ToArrayBuffer(xml.querySelector('group1').querySelector('group2').querySelector('Attachment').innerHTML);
-            //this.saveByteArray('tt', BufferArray);
+            this.saveByteArray('tt.pdf', BufferArray);
 
+            ///////////////////////////////////////////////////////////////////
             //Uploading buffer to another document library
+            ///////////////////////////////////////////////////////////////////
+            var today = new Date(),
+                date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getMilliseconds();
+
             pnp.sp.web
-            .getFolderByServerRelativeUrl("OmniCellPreMT Test")
-            .files.add('test.xls', BufferArray, true)
-            .then(f => {
-                f.file.getItem().then(item => {
-                    item.update({
-                        Title: "A Title",
-                        SiteLocation:"Enter Choice #2",
-                        ContentTypeId :"0x010100C4B1772BA59E054E8EFF91A2D864610D001A6CB99011D4BB45BC4C81F93F286C54",
-                        Business_x0020_Owner:"File Data Upload 1"
+                .getFolderByServerRelativeUrl("OmniCellPreMT Test")
+                .files.add(date + '-test.xls', BufferArray, true)
+                .then(f => {
+                    f.file.getItem().then(item => {
+                        item.update({
+                            Title: "A Title",
+                            SiteLocation: "Enter Choice #2",
+                            ContentTypeId: "0x010100C4B1772BA59E054E8EFF91A2D864610D001A6CB99011D4BB45BC4C81F93F286C54",
+                            Business_x0020_Owner: "File Data Upload 1"
+                        });
                     });
                 });
-            });
+            ///////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////
+
+
+
+
+
         }
     }
 
@@ -156,12 +173,12 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
     public render(): React.ReactElement<IpatentProps> {
 
         //const { pId } = this.state;
-        const { addEditId, context, editSelectedCollectionItems, edtParentItemGrdData } = this.props;
+        const { addEditId, context, editSelectedCollectionItems, edtParentItemGrdData, tempSlNo } = this.props;
 
         return (
             <div>
                 <b> Hi, I am Parent .</b>
-                
+
 
                 {
                     editSelectedCollectionItems.length > 0 ?
@@ -177,68 +194,70 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
                 }
 
 
+                <div className="scrollDiv">
+                    <table>
+                        <tr>
+                            <td>Account Name</td>
+                            <td>
+                                <TextField label="With error message" value={edtParentItemGrdData.Customer_x0020_Name} errorMessage="Error message" />
+                            </td>
+                            <td>CSN #</td>
+                            <td>
+                                <TextField label="With error message" value={edtParentItemGrdData.CSN} errorMessage="Error message" />
+                            </td>
+                            <td>Ship To Address</td>
+                            <td>
+                                <TextField label="With error message" errorMessage="Error message" />
+                            </td>
+                            <td>
+                                <DefaultButton onClick={this.addNewDetailForm(this, 0)} text="Add +" />
+                            </td>
+                        </tr>
 
 
-                <table>
-                    <tr>
-                        <td>Account Name</td>
-                        <td>
-                            <TextField label="With error message" value={edtParentItemGrdData.Customer_x0020_Name} errorMessage="Error message" />
-                        </td>
-                        <td>CSN #</td>
-                        <td>
-                            <TextField label="With error message" value={edtParentItemGrdData.CSN} errorMessage="Error message" />
-                        </td>
-                        <td>Ship To Address</td>
-                        <td>
-                            <TextField label="With error message" errorMessage="Error message" />
-                        </td>
-                        <td>
-                            <DefaultButton onClick={this.addNewDetailForm(this, 0)} text="Add +" />
-                        </td>
-                    </tr>
-                    {this.state.itemDetailData.map(myitems1 => {
-                        if (myitems1.slNo >= 0) {
-                            return (
-                                <tr>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <DefaultButton onClick={this.deleteNewDetailForm(this, myitems1.slNo)} text="-" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Part #</td><td>
-                                                    <TextField label="With error message" errorMessage="Error message" />
-                                                </td>
-                                                <td>
-                                                    Order Accepted by Yuyama - Y/N?
+                        {this.state.itemDetailData.map(myitems1 => {
+                            if (myitems1.slNo >= 0) {
+                                return (
+                                    <tr>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <DefaultButton onClick={this.deleteNewDetailForm(this, this.props.addEditId, myitems1.slNo)} text="-" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Part #</td><td>
+                                                        <TextField label="With error message" errorMessage="Error message" />
+                                                    </td>
+                                                    <td>
+                                                        Order Accepted by Yuyama - Y/N?
                                     </td><td>
-                                                    <TextField label="With error message" errorMessage="Error message" />
-                                                </td>
-                                                <td>
-                                                    Committed Land date by Yuyama
+                                                        <TextField label="With error message" errorMessage="Error message" />
+                                                    </td>
+                                                    <td>
+                                                        Committed Land date by Yuyama
                                     </td> <td>
-                                                    <TextField label="With error message" errorMessage="Error message" />
-                                                </td>
-                                                <td>
-                                                    Tracking #
+                                                        <TextField label="With error message" errorMessage="Error message" />
+                                                    </td>
+                                                    <td>
+                                                        Tracking #
                                     </td><td>
-                                                    <TextField label="With error message" errorMessage="Error message" />
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
+                                                        <TextField label="With error message" errorMessage="Error message" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                            );
-                        }
-                    })}
-                </table>
+                                );
+                            }
+                        })}
 
+                    </table>
+                </div>
                 <hr></hr>
-            </div>
+            </div >
         );
     }
 }
