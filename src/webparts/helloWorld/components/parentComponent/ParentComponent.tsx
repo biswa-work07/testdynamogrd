@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IpatentProps } from './IpatentProps';
-import { IDetailForm, IparentState } from './IparentState';
+import { IDetailForm, IparentState, IFileData } from './IparentState';
 import { IItemGrd } from './../grdComponent/IgridState';
 
 import { escape } from '@microsoft/sp-lodash-subset';
@@ -8,6 +8,7 @@ import pnp from "sp-pnp-js";
 
 import { TextField, MaskedTextField } from 'office-ui-fabric-react/lib/TextField';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
+import { CommandBarButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
 
 import { Button, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { ConsoleListener, Web, Logger, LogLevel, ODataRaw } from "sp-pnp-js";
@@ -18,6 +19,7 @@ import Utility from '../../lib/Utility';
 
 
 export default class ParentComponent extends React.Component<IpatentProps, IparentState, any> {
+
 
 
     constructor(props: IpatentProps) {
@@ -60,7 +62,7 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
                     slNo: 0,
                     ID: 0,
                     pId: 0,
-                    rpt_fileContent: [],
+                    rpt_fileData: this.NewDetailFormDefaultdataAttachment(),
                     Part: "",
                     OrderAccepted: "",
                     CommittedLandDatebyYuyama: "",
@@ -90,15 +92,45 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
 
     public NewDetailFormDefaultdata = (): IDetailForm[] => {
         const { tempSlNo } = this.state;
-        return [{ slNo: tempSlNo + 1, ID: 0, pId: 0, rpt_fileContent: [], ContentTypeId: "", Part: { Id: 0, PartDougM: "" }, OrderAccepted: { Id: 0, PartDougM: "" }, CommittedLandDatebyYuyama: "", Tracking: "" }];
+        return [{ slNo: tempSlNo + 1, ID: 0, pId: 0, rpt_fileData: this.NewDetailFormDefaultdataAttachment(), ContentTypeId: "", Part: { Id: 0, PartDougM: "" }, OrderAccepted: { Id: 0, PartDougM: "" }, CommittedLandDatebyYuyama: "", Tracking: "" }];
     }
+
+    public NewDetailFormDefaultdataAttachment = (): IFileData[] => {
+        return [{ Id: 0, temp_id: 0, rpt_fileContent: null }];
+    }
+
+
+    //Adding New attachment in detail list
+    private addDetailAttachmet = (e: any): void => {
+        alert('Attachment');
+    }
+
+
+    //Adding New attachment in detail list
+    private _changeFileSelection = (e: any) => {
+        if (
+            e.currentTarget &&
+            e.currentTarget.files &&
+            e.currentTarget.files.length > 0
+        ) {
+
+
+            this.setState({
+
+            });
+
+
+        }
+    }
+
+
 
     //Delete new DTAILS FROM DOUG M
     private deleteNewDetailForm = (e: any, id: any, slno?: number) => (value: any) => {
 
         const { itemDetailData, tempSlNo } = this.state;
-        
-        // alert(id + '|' + slno);
+
+        alert(id + '|' + slno);
         // let array1 = [...itemDetailData];
 
         this.setState(_itemDetailData => ({ itemDetailData: _itemDetailData.itemDetailData.filter(person => person.slNo !== slno) }));
@@ -106,7 +138,6 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
     }
 
     public async componentDidMount() {
-
 
         if (this.props.addEditId > 0) {
             const _util = new Utility();
@@ -145,10 +176,6 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
                 });
             ///////////////////////////////////////////////////////////////////
             ///////////////////////////////////////////////////////////////////
-
-
-
-
 
         }
     }
@@ -246,10 +273,49 @@ export default class ParentComponent extends React.Component<IpatentProps, Ipare
                                                         <TextField label="With error message" errorMessage="Error message" />
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td>
+
+                                                        <input
+                                                            type="file" multiple={true}
+                                                            onChange={this._changeFileSelection}
+                                                        />
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        {/* {
+                                                            myitems1.rpt_fileData.map(myitems2 => {
+                                                                if (myitems2.Id >= 0) {
+                                                                    return (
+
+
+                                                                        <input
+                                                                            type="file" multiple={true}
+                                                                            onChange={this._changeFileSelection}
+                                                                        />
+
+
+                                                                    );
+                                                                }
+                                                            })
+                                                        } */}
+                                                    </td>
+                                                    <td>
+                                                        <CommandBarButton
+                                                            data-automation-id="addButton"
+                                                            disabled={false}
+                                                            iconProps={{ iconName: 'Add' }}
+                                                            text=""
+                                                            onClick={e => this.addDetailAttachmet(this)}
+                                                        />
+                                                    </td>
+                                                </tr>
+
                                             </table>
                                         </td>
                                     </tr>
-
                                 );
                             }
                         })}

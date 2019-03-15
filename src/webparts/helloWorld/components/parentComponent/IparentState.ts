@@ -1,6 +1,6 @@
 import { IItemGrd } from './../grdComponent/IgridState';
 
-export interface IDetailForm {       
+export interface IDetailForm {
     ID?: number;
     slNo?: number;
     pId?: number;
@@ -9,11 +9,17 @@ export interface IDetailForm {
     //PROJECT FIELDS
     /////////////////////////////
     ContentTypeId?: "";
-    rpt_fileContent?: any[];
+    rpt_fileData?: IFileData[];
     Part?: IPart;
     OrderAccepted?: IOrderAccepted;
     CommittedLandDatebyYuyama?: string;
     Tracking?: string;
+}
+
+export interface IFileData {  
+    Id: number;  
+    temp_id?: number;
+    rpt_fileContent?: any[];
 }
 
 export interface IPart {
@@ -34,5 +40,6 @@ export interface IparentState {
     selectedItem?: { key: string | number | undefined };
     items: IItemGrd;
     itemDetailData?: IDetailForm[];
+    rpt_Attachments?: IFileData[];
 }
 
